@@ -1,4 +1,3 @@
-package Start;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,7 +16,7 @@ import java.awt.*;
  * @author Basketball-Manager Projekt
  * @version 1.0
  */
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements View {
     private AppController controller;
     
     // Club-Panel Komponenten
@@ -205,4 +204,13 @@ public class MainWindow extends JFrame {
     public void showMessage(String msg) {
         output.append("> " + msg + "\n");
     }
+
+    /**
+     * Hängt eine Nachricht ins Log (in Tests genutzt).
+     * @param msg die Nachricht
+     */
+    public void appendOutput(String msg) {
+        output.append(msg + "\n");
+    }
 }
+

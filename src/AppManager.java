@@ -1,4 +1,3 @@
-package Start;
 
 import java.util.ArrayList;
 
@@ -79,5 +78,25 @@ public class AppManager {
      */
     public int getAnzahlSpiele() {
         return spiele.size();
+    }
+
+    /**
+     * Gibt die Liste der Spieler des Clubs zurueck.
+     * @return Liste der Spieler
+     */
+    public ArrayList<Spieler> getSpieler() {
+        return club.getSpieler();
+    }
+
+    /**
+     * Ersetzt den aktuellen Club durch einen neuen.
+     * @param club neuer Club (nicht null)
+     * @throws IllegalArgumentException wenn club null ist
+     */
+    public void setClub(Club club) throws IllegalArgumentException {
+        if (club == null) {
+            throw new IllegalArgumentException("Club darf nicht null sein!");
+        }
+        this.club = club;
     }
 }

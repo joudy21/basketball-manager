@@ -1,4 +1,3 @@
-package Start;
 
 /**
  * Start: Application Entry Point

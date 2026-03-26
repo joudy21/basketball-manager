@@ -1,4 +1,3 @@
-package Start;
 
 /**
  * AppController: Controller Layer
@@ -14,14 +13,14 @@ package Start;
  */
 public class AppController {
     private AppManager model;
-    private MainWindow view;
+    private View view;
 
     /**
      * Erstellt einen neuen Controller mit Model und View.
      * @param model das Model (Daten)
-     * @param view die View (GUI)
+     * @param view die View (GUI oder Test-Stub)
      */
-    public AppController(AppManager model, MainWindow view) {
+    public AppController(AppManager model, View view) {
         this.model = model;
         this.view = view;
     }
@@ -131,10 +130,79 @@ public class AppController {
      * @param fieldName Feldbezeichnung fuer Fehlermeldung
      * @return null wenn valid, sonst Fehlermeldung
      */
-    private String validateNotEmpty(String value, String fieldName) {
+    public String validateNotEmpty(String value, String fieldName) {
         if (value == null || value.trim().isEmpty()) {
             return fieldName + " darf nicht leer sein!";
         }
         return null;
+    }
+
+    /**
+     * Ueberladung von saveClub fuer String-basierte Parameter (fuer Tests).
+     * Konvertiert Strings in die korrekten Typen.
+     * 
+     * @param name Club-Name
+     * @param jahr Gruendungsjahr als String
+     * @param id Club-ID als String
+     */
+    public void saveClub(String name, String jahr, String id) {
+        try {
+            int idInt = Integer.parseInt(id);
+            int jahrInt = Integer.parseInt(jahr);
+            saveClub(name, jahr, idInt);
+        } catch (NumberFormatException e) {
+            view.showMessage("FEHLER: Ungültige Nummer eingegeben!");
+        }
+    }
+
+    /**
+     * Ueberladung von saveSpieler fuer String-basierte Parameter (fuer Tests).
+     * Konvertiert Strings in die korrekten Typen.
+     * 
+     * @param vorname Vorname des Spielers
+     * @param nachname Nachname des Spielers
+     * @param nummer Jersey-Nummer als String
+     */
+    public void saveSpieler(String vorname, String nachname, String nummer) {
+        try {
+            int nummerInt = Integer.parseInt(nummer);
+            saveSpieler(vorname, nachname, nummerInt);
+        } catch (NumberFormatException e) {
+            view.showMessage("FEHLER: Jersey-Nummer muss eine Zahl sein!");
+        }
+    }
+
+    /**
+     * Ueberladung von saveSpiel mit Punkte-Parametern (fuer Tests).
+     * 
+     * @param heimTeam Heim-Team-Name
+     * @param gastTeam Gast-Team-Name
+     * @param punkteHeim Heimteam-Punkte als String
+     * @param punkteGast Gastteam-Punkte als String
+     */
+    public void saveSpiel(String heimTeam, String gastTeam, String punkteHeim, String punkteGast) {
+        String errorMsg = validateNotEmpty(heimTeam, "Heimteam");
+        if (errorMsg != null) {
+            view.showMessage("FEHLER: " + errorMsg);
+            return;
+        }
+
+        errorMsg = validateNotEmpty(gastTeam, "Gastteam");
+        if (errorMsg != null) {
+            view.showMessage("FEHLER: " + errorMsg);
+            return;
+        }
+
+        try {
+            int hPunkte = Integer.parseInt(punkteHeim);
+            int gPunkte = Integer.parseInt(punkteGast);
+            Spiel spiel = new Spiel(heimTeam, gastTeam, hPunkte, gPunkte);
+            model.addSpiel(spiel);
+            view.showMessage("Spiel eingegeben: " + spiel);
+        } catch (NumberFormatException e) {
+            view.showMessage("FEHLER: Punkte müssen Zahlen sein!");
+        } catch (IllegalArgumentException e) {
+            view.showMessage("FEHLER: " + e.getMessage());
+        }
     }
 }

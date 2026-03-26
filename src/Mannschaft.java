@@ -1,4 +1,3 @@
-package Start;
 
 /**
  * Entität: Mannschaft

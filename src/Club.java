@@ -1,4 +1,3 @@
-package Start;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,6 +31,44 @@ public class Club {
     }
 
     /**
+     * Erstellt einen neuen Club mit Initialwerten (für Tests).
+     * @param clubName der Club-Name
+     * @param gruendungsjahr das Gründungsjahr
+     * @param idC die Club-ID
+     */
+    public Club(String clubName, int gruendungsjahr, int idC) {
+        if (clubName == null || clubName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Club-Name darf nicht leer sein!");
+        }
+        if (idC <= 0) {
+            throw new IllegalArgumentException("Club-ID muss > 0 sein!");
+        }
+        this.clubName = clubName.trim();
+        this.gruendungsjahr = String.valueOf(gruendungsjahr);
+        this.idC = idC;
+        this.spielerListe = new ArrayList<>();
+    }
+
+    /**
+     * Erstellt einen neuen Club mit Initialwerten (Überlad für int vs String Jahr).
+     * @param clubName der Club-Name
+     * @param gruendungsjahr das Gründungsjahr als String
+     * @param idC die Club-ID
+     */
+    public Club(String clubName, String gruendungsjahr, int idC) {
+        if (clubName == null || clubName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Club-Name darf nicht leer sein!");
+        }
+        if (idC <= 0) {
+            throw new IllegalArgumentException("Club-ID muss > 0 sein!");
+        }
+        this.clubName = clubName.trim();
+        this.gruendungsjahr = gruendungsjahr != null ? gruendungsjahr.trim() : "";
+        this.idC = idC;
+        this.spielerListe = new ArrayList<>();
+    }
+
+    /**
      * Setzt den Club-Namen (mit Validierung).
      * @param clubName der neue Name
      * @throws IllegalArgumentException wenn leer
@@ -58,6 +95,14 @@ public class Club {
         if (gruendungsjahr != null) {
             this.gruendungsjahr = gruendungsjahr.trim();
         }
+    }
+
+    /**
+     * Setzt das Gruendungsjahr.
+     * @param gruendungsjahr das Jahr als Ganzzahl
+     */
+    public void setGruendungsjahr(int gruendungsjahr) {
+        this.gruendungsjahr = String.valueOf(gruendungsjahr);
     }
 
     /**
@@ -138,6 +183,26 @@ public class Club {
         ArrayList<Spieler> sorted = new ArrayList<>(spielerListe);
         sorted.sort(Comparator.comparingInt(Spieler::getNummer));
         return sorted;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Club other = (Club) obj;
+        return idC == other.idC
+                && clubName.equals(other.clubName)
+                && gruendungsjahr.equals(other.gruendungsjahr)
+                && spielerListe.equals(other.spielerListe);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = clubName.hashCode();
+        result = 31 * result + gruendungsjahr.hashCode();
+        result = 31 * result + Integer.hashCode(idC);
+        result = 31 * result + spielerListe.hashCode();
+        return result;
     }
 
     @Override
