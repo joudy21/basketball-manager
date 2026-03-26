@@ -1,0 +1,33 @@
+# Compiled Java files
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+.eclipse
+.project
+.classpath
+
+# Build output
+target/
+build/
+bin/
+out/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Misc
+*.tmp
+.gradle/
+.env
+.env.local
